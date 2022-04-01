@@ -67,18 +67,4 @@ void init(void)
 
 
 
-int main(int argc, char** argv)
-{
-    cout<<("Enter the points\n(X1,Y1,X2,Y2):-\n");
-    cin>>xa>>ya>>xb>>yb;
-    glutInit(&argc, argv);
-    glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize (500, 500);
-    glutInitWindowPosition (100, 100);
-    glutCreateWindow ("DDA Line Algorithm ");
-    init ();
-    glutDisplayFunc(display);
-    glutMainLoop();
-    return 0;
 
-}
