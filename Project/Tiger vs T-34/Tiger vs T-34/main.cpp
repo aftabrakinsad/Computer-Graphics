@@ -7,20 +7,19 @@
 #include <cmath>
 #include <iomanip>
 #include <windows.h>
+#define PI 3.1415926535897323846
 
 float _move_sun = 1.00f;
 float _move_cloud_1 = 0.00f;
 float _move_cloud_2 = 0.00f;
-
 
 GLfloat i = 0.0f;
 GLfloat r = 0.0f;
 GLfloat position = 0.0f;
 GLfloat speed = 0.02f;
 
-
-
-void update_sun(int value){
+void update_sun(int value)
+{
     _move_sun -= 0.00055f;
     if(_move_sun+1.0 < -1.0)
     {
@@ -30,8 +29,9 @@ void update_sun(int value){
 
 	glutTimerFunc(20, update_sun, 0);
 }
-void update_plane(int value) {
 
+void update_plane(int value)
+{
     if(position > 1.6)
         position = -1.2f;
 
@@ -42,7 +42,8 @@ void update_plane(int value) {
 	glutTimerFunc(100, update_plane, 0);
 }
 
-void update_cloud_1(int value) {
+void update_cloud_1(int value)
+{
     _move_cloud_1 += 0.0025f;
     if(_move_cloud_1-1.1 > 1.0)
     {
@@ -53,7 +54,8 @@ void update_cloud_1(int value) {
 	glutTimerFunc(20, update_cloud_1, 0); //Notify GLUT to call update again in 25 milliseconds
 }
 
-void update_cloud_2(int value){
+void update_cloud_2(int value)
+{
     _move_cloud_2 -= 0.0025f;
     if(_move_cloud_2+1.1 < -1.0)
     {
@@ -63,7 +65,6 @@ void update_cloud_2(int value){
 
 	glutTimerFunc(20, update_cloud_2, 0);
 }
-
 
 void star()
 {
@@ -80,12 +81,12 @@ void star()
             glVertex2f(x,y );
         }
         glEnd();
-
 }
 
-void sky(){
-
-    if(_move_sun<=1.00f && _move_sun>=0.90f){
+void sky()
+{
+    if(_move_sun<=1.00f && _move_sun>=0.90f)
+    {
         glClear (GL_COLOR_BUFFER_BIT);
         glBegin(GL_QUADS);
         glColor3f(0.529, 0.808, 0.922);
@@ -97,7 +98,8 @@ void sky(){
         glVertex2f(-1.0, -0.05);
         glEnd();
     }
-    else if(_move_sun<0.90f && _move_sun>=0.55f){
+    else if(_move_sun<0.90f && _move_sun>=0.55f)
+    {
         glBegin(GL_QUADS);
         glColor3f(0.000, 0.749, 1.000);
         glVertex2f(-1.0,1.0);
@@ -108,7 +110,8 @@ void sky(){
         glVertex2f(-1.0, -0.05);
         glEnd();
     }
-    else if(_move_sun<0.55f && _move_sun>=0.35f){
+    else if(_move_sun<0.55f && _move_sun>=0.35f)
+    {
         glBegin(GL_QUADS);
         glColor3f(0.000, 0.749, 1.000);
         glVertex2f(-1.0,1.0);
@@ -119,8 +122,8 @@ void sky(){
         glVertex2f(-1.0, -0.05);
         glEnd();
     }
-
-    else if(_move_sun<0.35f && _move_sun>=0.25f){
+    else if(_move_sun<0.35f && _move_sun>=0.25f)
+    {
         glBegin(GL_QUADS);
         glColor3f(0.529, 0.808, 0.980);
         glVertex2f(-1.0,1.0);
@@ -131,8 +134,8 @@ void sky(){
         glVertex2f(-1.0, -0.05);
         glEnd();
     }
-
-    else if(_move_sun<0.25f && _move_sun>=0.10f){
+    else if(_move_sun<0.25f && _move_sun>=0.10f)
+    {
         glBegin(GL_QUADS);
         glColor3f(0.529, 0.808, 0.980);
         glVertex2f(-1.0,1.0);
@@ -143,7 +146,8 @@ void sky(){
         glVertex2f(-1.0, -0.05);
         glEnd();
     }
-    else if(_move_sun<0.10f && _move_sun>=0.0f){
+    else if(_move_sun<0.10f && _move_sun>=0.0f)
+    {
         glBegin(GL_QUADS);
         glColor3f(1.000, 0.388, 0.278);
         glVertex2f(-1.0,1.0);
@@ -154,7 +158,8 @@ void sky(){
         glVertex2f(-1.0, -0.05);
         glEnd();
     }
-    else{
+    else
+    {
         glBegin(GL_QUADS);
         glColor3f(0.412, 0.412, 0.412);
         glVertex2f(-1.0,1.0);
@@ -257,7 +262,8 @@ void sky(){
     }
 }
 
-void field_1(){
+void field_1()
+{
     //field 1
     glBegin(GL_QUADS);
     glColor3f(0.196, 0.804, 0.196);
@@ -272,6 +278,134 @@ void field_1(){
     glColor3f(0.498, 1.000, 0.000);
     glVertex2f(1.0, 0.135);
 
+    glEnd();
+
+    //tank
+    //T - 34 Body part -1
+    glBegin(GL_QUADS);
+    glColor3ub(62,143,57);
+    glVertex2f(0.3f, -0.1f);
+    glVertex2f(0.6f, -0.1f);
+    glVertex2f(0.6f,  0.0f);
+    glVertex2f(0.3f,  0.0f);
+    glEnd();
+
+    //T - 34 Body part -2
+    glBegin(GL_QUADS);
+    glColor3ub(62,143,57);
+    glVertex2f(0.2f, -0.1f);
+    glVertex2f(0.65f, -0.1f);
+    glVertex2f(0.65f, -0.3f);
+    glVertex2f(0.2f, -0.3f);
+    glEnd();
+
+    //T - 34 wheel -1
+    int i;
+    GLfloat x = 0.2f;
+    GLfloat y = -0.356f;
+    GLfloat radius = 0.06f;
+    int triangleAmount = 20;
+    GLfloat twicePi = 2.0f * PI;
+
+
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3ub(44,60,43);
+    glVertex2f(x, y);
+    for(i = 0; i <= triangleAmount;i++)
+    {
+        glVertex2f
+        (
+            x + (radius * cos(i * twicePi / triangleAmount)),
+            y + (radius * sin(i * twicePi / triangleAmount))
+        );
+    }
+    glEnd();
+
+    //T - 34 wheel -2
+    x = 0.35f;
+    y = -0.356f;
+    radius = 0.06f;
+    triangleAmount = 20;
+    twicePi = 2.0f * PI;
+
+
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3ub(44,60,43);
+    glVertex2f(x, y);
+    for(i = 0; i <= triangleAmount;i++)
+    {
+        glVertex2f
+        (
+            x + (radius * cos(i * twicePi / triangleAmount)),
+            y + (radius * sin(i * twicePi / triangleAmount))
+        );
+    }
+    glEnd();
+
+    //T - 34 wheel -3
+    x = 0.5f;
+    y = -0.356f;
+    radius = 0.06f;
+    triangleAmount = 20;
+    twicePi = 2.0f * PI;
+
+
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3ub(44,60,43);
+    glVertex2f(x, y);
+    for(i = 0; i <= triangleAmount;i++)
+    {
+        glVertex2f
+        (
+            x + (radius * cos(i * twicePi / triangleAmount)),
+            y + (radius * sin(i * twicePi / triangleAmount))
+        );
+    }
+    glEnd();
+
+    //T - 34 wheel -4
+    x = 0.65f;
+    y = -0.356f;
+    radius = 0.06f;
+    triangleAmount = 20;
+    twicePi = 2.0f * PI;
+
+
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3ub(44,60,43);
+    glVertex2f(x, y);
+    for(i = 0; i <= triangleAmount;i++)
+    {
+        glVertex2f
+        (
+            x + (radius * cos(i * twicePi / triangleAmount)),
+            y + (radius * sin(i * twicePi / triangleAmount))
+        );
+    }
+    glEnd();
+
+    //Right Tank Fire Tube (T - 34)
+    glLineWidth(15);
+    glBegin(GL_LINES);
+    glColor3ub(46, 139, 87);
+    glVertex2f(0.3f, -0.035f);
+    glVertex2f(-0.05f, -0.035f);
+    glEnd();
+
+    //T - 34 wheel chain -1
+    glLineWidth(8);
+    glBegin(GL_LINES);
+    glColor3ub(44,60,43);
+    glVertex2f(0.2f, -0.41f);
+    glVertex2f(0.65f, -0.41f);
+    glEnd();
+
+    //T - 34 wheel chain -2
+    glLineWidth(8);
+    glBegin(GL_LINES);
+    glColor3ub(44,60,43);
+    glVertex2f(0.2f, -0.31f);
+    glVertex2f(0.65f, -0.31f);
     glEnd();
 }
 
@@ -291,36 +425,38 @@ void sun_circle()
     glEnd();
 }
 
-void sun(){
+void sun()
+{
     //Sun
     glLoadIdentity(); //Reset the drawing perspective
     glMatrixMode(GL_MODELVIEW);
 
-    if(_move_sun<=1.00 && _move_sun>=0.90f){
+    if(_move_sun<=1.00 && _move_sun>=0.90f)
+    {
         glPushMatrix();
         glTranslatef(0.0f, _move_sun, 0.0f);
         glColor3f(1.000, 0.647, 0.000);
         sun_circle();
         glPopMatrix();
     }
-
-    else if(_move_sun<0.90f && _move_sun>=0.80f){
+    else if(_move_sun<0.90f && _move_sun>=0.80f)
+    {
         glPushMatrix();
         glTranslatef(0.0f, _move_sun, 0.0f);
         glColor3f(1.000, 0.843, 0.000);
         sun_circle();
         glPopMatrix();
     }
-
-    else if(_move_sun<0.80 && _move_sun>=0.65){
+    else if(_move_sun<0.80 && _move_sun>=0.65)
+    {
         glPushMatrix();
         glTranslatef(0.0f, _move_sun, 0.0f);
         glColor3f(1.000, 1.000, 0.000);
         sun_circle();
         glPopMatrix();
     }
-
-    else if(_move_sun<0.65 && _move_sun>=0.45){
+    else if(_move_sun<0.65 && _move_sun>=0.45)
+    {
         glPushMatrix();
         glTranslatef(0.0f, _move_sun, 0.0f);
         glColor3f(1.000, 0.843, 0.000);
@@ -335,16 +471,16 @@ void sun(){
         sun_circle();
         glPopMatrix();
     }
-
-    else if(_move_sun<0.25 && _move_sun>=0.0){
+    else if(_move_sun<0.25 && _move_sun>=0.0)
+    {
         glPushMatrix();
         glTranslatef(0.0f, _move_sun, 0.0f);
         glColor3f(1.000, 0.549, 0.000);
         sun_circle();
         glPopMatrix();
     }
-
-    else{
+    else
+    {
         glPushMatrix();
         glTranslatef(0.0f, _move_sun, 0.0f);
         glColor3f(1.000, 0.271, 0.000);
@@ -355,8 +491,12 @@ void sun(){
 
 void cloud_struct()
 {
-    if(NULL){}
-    else{
+    if(NULL)
+    {
+
+    }
+    else
+    {
          glColor3f(1.000, 1.000, 1.000);
     }
         glScalef(0.6,1,1);
@@ -374,7 +514,8 @@ void cloud_struct()
 
 }
 
-void cloud_left(){
+void cloud_left()
+{
     //Cloud on the left
     glLoadIdentity(); //Reset the drawing perspective
 	glMatrixMode(GL_MODELVIEW);
@@ -421,7 +562,8 @@ void cloud_left(){
     glPopMatrix();
 }
 
-void cloud_right(){
+void cloud_right()
+{
     //Cloud on the right
     glLoadIdentity(); //Reset the drawing perspective
 	glMatrixMode(GL_MODELVIEW);
@@ -475,7 +617,8 @@ void cloud_right(){
     glPopMatrix();
 }
 
-void river(){
+void river()
+{
     glBegin(GL_QUADS);
     glColor3f(0.000, 1.000, 1.000);
     glVertex2f(1.0, -0.60);
@@ -502,47 +645,46 @@ void planeWindow()
     glVertex2f(0.1f, -0.1f);
    glEnd();
 }
+
 void plane()
 {
-   glBegin(GL_TRIANGLES);
+    glBegin(GL_TRIANGLES);
     glColor3f(0.5, 0.5, 0.5);
     glVertex2f(0.9f, 0.0f);
     glColor3f(0.9, 0.9, 1.0);
     glVertex2f(0.5f, 0.2f);
     glColor3f(0.9, 0.9, 1.0);
     glVertex2f(0.5f, 0.0f);
-   glEnd();
-   glBegin(GL_POLYGON);
+    glEnd();
+    glBegin(GL_POLYGON);
     glColor3f(1.00, 1.00, 1.0);
     glVertex2f(0.5f, 0.2f);
     glVertex2f(-0.4f, 0.2f);
     glVertex2f(-0.4f, 0.0f);
     glVertex2f(0.5f, 0.0f);
-   glEnd();
-   glBegin(GL_POLYGON);
+    glEnd();
+    glBegin(GL_POLYGON);
     glColor3f(0.000, 0.5, 1.000);
     glVertex2f(-0.4f, 0.2f);
     glVertex2f(-0.6f, 0.4f);
     glVertex2f(-0.7f, 0.4f);
     glVertex2f(-0.6f, 0.0f);
     glVertex2f(-0.4f, 0.0f);
-   glEnd();
-   glBegin(GL_POLYGON);
+    glEnd();
+    glBegin(GL_POLYGON);
     glColor3f(0.000, 0.5, 1.000);
     glVertex2f(-0.1f, 0.2f);
     glVertex2f(-0.3f, 0.5f);
     glVertex2f(-0.2f, 0.5f);
     glVertex2f(0.2f, 0.2f);
-   glEnd();
-   glBegin(GL_POLYGON);
+    glEnd();
+    glBegin(GL_POLYGON);
     glColor3f(0.000, 0.5, 1.000);
     glVertex2f(-0.1f, 0.0f);
     glVertex2f(-0.3f, -0.3f);
     glVertex2f(-0.2f, -0.3f);
     glVertex2f(0.2f, 0.0f);
-   glEnd();
-
-
+    glEnd();
 
     glPushMatrix();
     glScalef(0.2, 0.4, 0.0);
@@ -563,14 +705,14 @@ void airplane()
 
     glPushMatrix();
     glTranslatef(position,0.0f, 0.0f);
-      glScalef(0.2, 0.2, 0.0);
-      glTranslatef(0.0, 4.0, 0.0);
-      plane();
+    glScalef(0.2, 0.2, 0.0);
+    glTranslatef(0.0, 4.0, 0.0);
+    plane();
     glPopMatrix();
 }
 
-
-void myDisplay(void){
+void myDisplay(void)
+{
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
     sky();
@@ -579,12 +721,13 @@ void myDisplay(void){
     cloud_left();
     cloud_right();
     river();
-     airplane();
+    airplane();
     glFlush();
 }
 
 
-void myInit (void){
+void myInit (void)
+{
     glClearColor(1.0, 1.0, 1.0, 0.0);
     glColor3f(0.0f, 0.0f, 0.0f);
     glPointSize(4.0);
@@ -593,12 +736,11 @@ void myInit (void){
     gluOrtho2D(0.0, 1.0, 0.0, 1.0);
 }
 
-
-
-int main(int argc, char** argv){
+int main(int argc, char** argv)
+{
     glutInit(&argc, argv);
     glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize (1366, 768);
+    glutInitWindowSize (1920, 1080);
     glutInitWindowPosition (0, 0);
     glutCreateWindow ("Project");
     glutDisplayFunc(myDisplay);
