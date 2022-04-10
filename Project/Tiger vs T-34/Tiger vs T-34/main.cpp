@@ -12,11 +12,45 @@
 float _move_sun = 1.00f;
 float _move_cloud_1 = 0.00f;
 float _move_cloud_2 = 0.00f;
+float _move_tank_1 = 1.00f;
+float _speed_cloud_1 = 0.0025f;
+float _speed_cloud_2 = 0.0025f;
+float _move_plane_1 = 0.00f;
+float _speed_plane_1 = 0.0025f;
 
 GLfloat i = 0.0f;
 GLfloat r = 0.0f;
 GLfloat position = 0.0f;
-GLfloat speed = 0.02f;
+GLfloat speed = 0.0025f;
+
+void update_cloud_1(int value) {
+    if(_speed_cloud_1>1.00f || _speed_cloud_1<0.00f)
+    {
+        _speed_cloud_1 = 0.0f;
+    }
+    _move_cloud_1 += _speed_cloud_1;
+    if(_move_cloud_1-1.3 > 1.0)
+    {
+        _move_cloud_1 = -1.0;
+    }
+	glutPostRedisplay(); //Notify GLUT that the display has changed
+
+	glutTimerFunc(20, update_cloud_1, 0); //Notify GLUT to call update again in 25 milliseconds
+}
+void update_cloud_2(int value) {
+    if(_speed_cloud_2>1 || _speed_cloud_2<0)
+    {
+        _speed_cloud_2 = 0.0f;
+    }
+    _move_cloud_2 -= _speed_cloud_2;
+    if(_move_cloud_2+1.3 < -1.0)
+    {
+        _move_cloud_2 = 1.5;
+    }
+	glutPostRedisplay(); //Notify GLUT that the display has changed
+
+	glutTimerFunc(20, update_cloud_2, 0); //Notify GLUT to call update again in 25 milliseconds
+}
 
 void update_sun(int value)
 {
@@ -39,31 +73,44 @@ void update_plane(int value)
 
 	glutPostRedisplay();
 
-	glutTimerFunc(100, update_plane, 0);
+	glutTimerFunc(20, update_plane, 0);
+}
+void update_plane1(int value)
+{
+    if(position > 1.6)
+        position = -1.2f;
+
+    position -= speed;
+
+	glutPostRedisplay();
+
+	glutTimerFunc(20, update_plane1, 0);
 }
 
-void update_cloud_1(int value)
-{
-    _move_cloud_1 += 0.0025f;
-    if(_move_cloud_1-1.1 > 1.0)
-    {
-        _move_cloud_1 = -1.0;
-    }
-	glutPostRedisplay(); //Notify GLUT that the display has changed
 
-	glutTimerFunc(20, update_cloud_1, 0); //Notify GLUT to call update again in 25 milliseconds
+
+
+void update_tank_t43(int value)
+{
+    _move_tank_1 -= 0.0025f;
+    if(_move_tank_1+1.1 < -1.0)
+    {
+        _move_tank_1 = 1.0;
+    }
+    glutPostRedisplay(); //Notify GLUT that the display has changed
+
+	glutTimerFunc(20, update_tank_t43, 0); //Notify GLUT to call update again in 25 milliseconds
 }
-
-void update_cloud_2(int value)
+void update1_tank_t43(int value)
 {
-    _move_cloud_2 -= 0.0025f;
-    if(_move_cloud_2+1.1 < -1.0)
+    _move_tank_1 += 0.0025f;
+    if(_move_tank_1+1.1 < -1.0)
     {
-        _move_cloud_2 = 1.0;
+        _move_tank_1 = 1.0;
     }
-	glutPostRedisplay(); //Notify GLUT that the display has changed
+    glutPostRedisplay(); //Notify GLUT that the display has changed
 
-	glutTimerFunc(20, update_cloud_2, 0);
+	glutTimerFunc(20, update1_tank_t43, 0); //Notify GLUT to call update again in 25 milliseconds
 }
 
 void star()
@@ -82,6 +129,56 @@ void star()
         }
         glEnd();
 }
+
+void specialKeys(int key, int x, int y) {
+    switch (key) {
+      case GLUT_KEY_UP:
+          update_tank_t43(0);
+
+
+          break;
+      case GLUT_KEY_DOWN:
+          glutTimerFunc(20, update1_tank_t43, 0);
+          break;
+    }
+}
+void keyboard(unsigned char key, int x, int y) {
+    switch (key) {
+      case 65:
+          _speed_cloud_1+=0.0025f;
+          update_cloud_1(0);
+          break;
+      case 97:
+          _speed_cloud_1-=0.0025f;
+          update_cloud_1(0);
+
+          break;
+           case 100:
+          _speed_cloud_2+=0.0025f;
+          update_cloud_2(0);
+          break;
+      case 101:
+          _speed_cloud_2-=0.0025f;
+          update_cloud_2(0);
+
+          break;
+            case 67:
+          _speed_plane_1+=0.0025f;
+          update_plane(0);
+          break;
+      case 68:
+          _speed_plane_1-=0.0025f;
+          update_plane1(0);
+
+          break;
+
+
+
+
+    }
+}
+
+
 
 void sky()
 {
@@ -281,7 +378,19 @@ void field_1()
     glEnd();
 
     //tank
+
+    glPushMatrix();
+    glTranslatef(_move_tank_1,0.0f, 0.0f);
     //T - 34 Body part -1
+    glBegin(GL_QUADS);
+    glColor3ub(62,143,57);
+    glVertex2f(0.4f,  0.0f);
+    glVertex2f(0.4f,  0.1f);
+    glVertex2f(0.6f,  0.0f);
+    glVertex2f(0.6f,  0.1f);
+    glEnd();
+
+    //T - 34 Body part -2
     glBegin(GL_QUADS);
     glColor3ub(62,143,57);
     glVertex2f(0.3f, -0.1f);
@@ -290,13 +399,40 @@ void field_1()
     glVertex2f(0.3f,  0.0f);
     glEnd();
 
-    //T - 34 Body part -2
+    //T - 34 Body part -3
     glBegin(GL_QUADS);
     glColor3ub(62,143,57);
     glVertex2f(0.2f, -0.1f);
     glVertex2f(0.65f, -0.1f);
     glVertex2f(0.65f, -0.3f);
     glVertex2f(0.2f, -0.3f);
+    glEnd();
+
+    //T -34 Window -1
+    glBegin(GL_QUADS);
+    glColor3ub(210,224,190);
+    glVertex2f(0.4f, -0.2f);
+    glVertex2f(0.3f, -0.2f);
+    glVertex2f(0.3f, -0.3f);
+    glVertex2f(0.4f, -0.3f);
+    glEnd();
+
+    //T -34 Window -2
+    glBegin(GL_QUADS);
+    glColor3ub(210,224,190);
+    glVertex2f(0.6f, -0.2f);
+    glVertex2f(0.5f, -0.2f);
+    glVertex2f(0.5f, -0.3f);
+    glVertex2f(0.6f, -0.3f);
+    glEnd();
+
+    //T -34 Window -3
+    glBegin(GL_QUADS);
+    glColor3ub(210,224,190);
+    glVertex2f(0.5f, -0.1f);
+    glVertex2f(0.4f, -0.1f);
+    glVertex2f(0.4f, -0.2f);
+    glVertex2f(0.5f, -0.2f);
     glEnd();
 
     //T - 34 wheel -1
@@ -406,6 +542,169 @@ void field_1()
     glColor3ub(44,60,43);
     glVertex2f(0.2f, -0.31f);
     glVertex2f(0.65f, -0.31f);
+    glEnd();
+    glPopMatrix();
+
+    //Tiger Body part -1
+    glBegin(GL_QUADS);
+    glColor3ub(62,143,57);
+    glVertex2f(-0.4f,  -0.0f);
+    glVertex2f(-0.4f,  -0.1f);
+    glVertex2f(-0.6f,  -0.0f);
+    glVertex2f(-0.6f,  -0.1f);
+    glEnd();
+
+    //Tiger Body part -2
+    glBegin(GL_QUADS);
+    glColor3ub(62,143,57);
+    glVertex2f(-0.3f, -0.1f);
+    glVertex2f(-0.6f, -0.1f);
+    glVertex2f(-0.6f,  -0.0f);
+    glVertex2f(-0.3f,  -0.0f);
+    glEnd();
+
+    //Tiger Body part -3
+    glBegin(GL_QUADS);
+    glColor3ub(62,143,57);
+    glVertex2f(-0.2f, -0.1f);
+    glVertex2f(-0.65f, -0.1f);
+    glVertex2f(-0.65f, -0.3f);
+    glVertex2f(-0.2f, -0.3f);
+    glEnd();
+
+    //Tiger Window -1
+    glBegin(GL_QUADS);
+    glColor3ub(210,224,190);
+    glVertex2f(-0.4f, -0.2f);
+    glVertex2f(-0.3f, -0.2f);
+    glVertex2f(-0.3f, -0.3f);
+    glVertex2f(-0.4f, -0.3f);
+    glEnd();
+
+    //Tiger Window -2
+    glBegin(GL_QUADS);
+    glColor3ub(210,224,190);
+    glVertex2f(-0.6f, -0.2f);
+    glVertex2f(-0.5f, -0.2f);
+    glVertex2f(-0.5f, -0.3f);
+    glVertex2f(-0.6f, -0.3f);
+    glEnd();
+
+    //Tiger Window -3
+    glBegin(GL_QUADS);
+    glColor3ub(210,224,190);
+    glVertex2f(-0.5f, -0.1f);
+    glVertex2f(-0.4f, -0.1f);
+    glVertex2f(-0.4f, -0.2f);
+    glVertex2f(-0.5f, -0.2f);
+    glEnd();
+
+    //Tiger wheel -1
+    x = -0.2f;
+    y = -0.356f;
+    radius = 0.06f;
+    triangleAmount = 20;
+    twicePi = 2.0f * PI;
+
+
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3ub(44,60,43);
+    glVertex2f(x, y);
+    for(i = 0; i <= triangleAmount;i++)
+    {
+        glVertex2f
+        (
+            x + (radius * cos(i * twicePi / triangleAmount)),
+            y + (radius * sin(i * twicePi / triangleAmount))
+        );
+    }
+    glEnd();
+
+    //Tiger wheel -2
+    x = -0.35f;
+    y = -0.356f;
+    radius = 0.06f;
+    triangleAmount = 20;
+    twicePi = 2.0f * PI;
+
+
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3ub(44,60,43);
+    glVertex2f(x, y);
+    for(i = 0; i <= triangleAmount;i++)
+    {
+        glVertex2f
+        (
+            x + (radius * cos(i * twicePi / triangleAmount)),
+            y + (radius * sin(i * twicePi / triangleAmount))
+        );
+    }
+    glEnd();
+
+    //T - 34 wheel -3
+    x = -0.5f;
+    y = -0.356f;
+    radius = 0.06f;
+    triangleAmount = 20;
+    twicePi = 2.0f * PI;
+
+
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3ub(44,60,43);
+    glVertex2f(x, y);
+    for(i = 0; i <= triangleAmount;i++)
+    {
+        glVertex2f
+        (
+            x + (radius * cos(i * twicePi / triangleAmount)),
+            y + (radius * sin(i * twicePi / triangleAmount))
+        );
+    }
+    glEnd();
+
+    //Tiger wheel -4
+    x = -0.65f;
+    y = -0.356f;
+    radius = 0.06f;
+    triangleAmount = 20;
+    twicePi = 2.0f * PI;
+
+
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3ub(44,60,43);
+    glVertex2f(x, y);
+    for(i = 0; i <= triangleAmount;i++)
+    {
+        glVertex2f
+        (
+            x + (radius * cos(i * twicePi / triangleAmount)),
+            y + (radius * sin(i * twicePi / triangleAmount))
+        );
+    }
+    glEnd();
+
+    //Left Tank Fire Tube (Tiger)
+    glLineWidth(15);
+    glBegin(GL_LINES);
+    glColor3ub(46, 139, 87);
+    glVertex2f(-0.3f, -0.035f);
+    glVertex2f(-0.05f, -0.035f);
+    glEnd();
+
+    //Tiger wheel chain -1
+    glLineWidth(8);
+    glBegin(GL_LINES);
+    glColor3ub(44,60,43);
+    glVertex2f(-0.2f, -0.41f);
+    glVertex2f(-0.65f, -0.41f);
+    glEnd();
+
+    //Tiger wheel chain -2
+    glLineWidth(8);
+    glBegin(GL_LINES);
+    glColor3ub(44,60,43);
+    glVertex2f(-0.2f, -0.31f);
+    glVertex2f(-0.65f, -0.31f);
     glEnd();
 }
 
@@ -744,10 +1043,17 @@ int main(int argc, char** argv)
     glutInitWindowPosition (0, 0);
     glutCreateWindow ("Project");
     glutDisplayFunc(myDisplay);
+    glutSpecialFunc(specialKeys);
+    glutKeyboardFunc(keyboard);
     glutTimerFunc(20, update_sun, 0);
     glutTimerFunc(20, update_cloud_1, 0);
     glutTimerFunc(20, update_cloud_2, 0);
-    glutTimerFunc(100, update_plane, 0);
+
+    glutTimerFunc(20, update_tank_t43, 0);
+    glutTimerFunc(20, update1_tank_t43, 0);
+
+    glutTimerFunc(20, update_plane, 0);
+    glutTimerFunc(20, update_plane1, 0);
     myInit ();
     glutMainLoop();
 
