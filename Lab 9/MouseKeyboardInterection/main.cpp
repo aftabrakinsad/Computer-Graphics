@@ -75,7 +75,7 @@ void update_ship(int value)
 
     if(_move_ship +1.3 < -1.0)
     {
-        _move_ship = 0.8;
+        _move_ship = 1.5f;
     }
 	glutPostRedisplay();
 
