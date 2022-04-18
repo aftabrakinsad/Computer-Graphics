@@ -181,9 +181,9 @@ void update_tank_t34(int value)
 void update_tank_tiger(int value)
 {
     _move_tank_2 += _speed_tank_2;
-    if(_move_tank_2 + 2.6 < 1.0)
+    if(_move_tank_2 - 2.6 > 1.0)
     {
-        _move_tank_2 = 1.2;
+        _move_tank_2 = -1.2;
     }
 
     glutPostRedisplay();
@@ -1640,7 +1640,6 @@ void building6()
     glVertex2f(0.95, -0.05);
     glVertex2f(0.95, 0.50);
     glVertex2f(0.90, 0.48);
-
     glEnd();
 
     glPushMatrix();
@@ -1727,7 +1726,7 @@ void snow()
         for(int i=0;i<100;i++)
         {
 
-            for(int j=0;j<500;j++)
+            for(int j=0;j<100;j++)
             {
 
                 glPushMatrix();
@@ -1821,7 +1820,7 @@ int main(int argc, char** argv)
 
     cout << "Press P : To Forward the Plane && Press p : To Backward the Plane" << endl << endl;
 
-    cout << "Press J : To Forward the Ship && Press u : To Backward the Ship" << endl << endl;
+    cout << "Press J : To Forward the Ship && Press j : To Backward the Ship" << endl << endl;
 
     cout << "Press T : To Forward the T-34 && Press t : To Backward the T-34" << endl << endl;
 
