@@ -1,4 +1,4 @@
-<p align="center">
+<p align="middle">
 <table>
   <tr>
     <th colspan="2"><h3><a href="https://www.aiub.edu">American International University-Bangladesh(AIUB)</a></h3></th>
