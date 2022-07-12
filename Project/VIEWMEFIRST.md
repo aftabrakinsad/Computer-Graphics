@@ -5,7 +5,7 @@
   </tr>
   
   <tr>
-    <th colspan="2"><h3>CSC3215	WEB TECHNOLOGIES</h3></h>
+    <th colspan="2"><h3>CSC4118	COMPUTER GRAPHICS</h3></h>
   </tr>
   
   <tr>
