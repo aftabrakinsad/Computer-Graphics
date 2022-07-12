@@ -9,7 +9,7 @@
   </tr>
   
   <tr>
-  <th colspan="2">Course Teacher: <a href="https://github.com/hsazzad-prog">SAZZAD HOSSAIN</a></th>
+  <th colspan="2">Course Teacher: <a href="https://cs.aiub.edu/profile/siyamul">MD. SIYAMUL ISLAM</a></th>
   </tr>
   
   <tr>
